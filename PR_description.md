@@ -32,7 +32,7 @@ Total: 70 (UNKNOWN: 0, LOW: 53, MEDIUM: 16, HIGH: 0, CRITICAL: 1)
 
 W ramach zadania przeprowadzono statyczną analizę kodu źródłowego aplikacji przy użyciu narzędzia Semgrep.
 
-Wyniki analizy ujawniły kilka potencjalnych problemów bezpieczeństwa, w tym:
+Wyniki analizy ujawniły kilkadziesiąt potencjalnych problemów bezpieczeństwa, w tym:
 ```
 ┌─────────────┐
 │ Scan Status │
@@ -258,3 +258,32 @@ https://github.com/pawelmuller/TBO-task4/actions/runs/20730093571
 
 
 ## Zadanie 4 (obowiązkowe): Uruchomienie aplikacji lokalnie + DAST z wykorzystaniem ZAP
+
+Zadanie polegało na przeprowadzeniu testów bezpieczeństwa typu DAST (Dynamic Application Security Testing) na
+uruchomionej lokalnie instancji aplikacji, wykorzystując narzędzie OWASP ZAP w wersji kontenerowej (`zap-baseline.py`).
+
+Skaner wykonał pasywną oraz aktywną analizę żądań HTTP, weryfikując nagłówki bezpieczeństwa oraz odporność na podstawowe
+ataki sieciowe. Raport z działania narzędzia wskazał obszary wymagające poprawy, w tym np. brakujące nagłówki
+`X-Content-Type-Options` oraz `X-Frame-Options`.
+
+![z4.png](.github/TBO/z4.png)
+
+
+### Porównanie wyników analizy SAST i DAST
+
+**Analiza statyczna (SAST)**, przeprowadzona przy użyciu narzędzi **Trivy** i **Semgrep**, skupiła się na weryfikacji
+kodu źródłowego i zależności. Wykryto **25 podatności**, dotyczących głównie błędów pamięciowych (np. przepełnienie bufora),
+które mogą prowadzić do nieautoryzowanego wykonania kodu (RCE). Wyniki te wskazują na problemy w samej implementacji
+lub użytych bibliotekach, możliwe do wykrycia bez uruchamiania aplikacji.
+
+Z kolei **analiza dynamiczna (DAST)** z wykorzystaniem **OWASP ZAP**, badająca aplikację w środowisku uruchomieniowym
+("black-box"), nie wykazała błędów krytycznych, ale zidentyfikowała trzy problemy o średnim poziomie ryzyka (*Medium*):
+* Brak tokenów Anti-CSRF,
+* Brak nagłówka Content Security Policy (CSP),
+* Brak ochrony przed atakami Clickjacking.
+
+#### Wnioski
+
+Rozbieżność w wynikach wynika z odmiennej natury testów. SAST wykrył głębokie błędy w logice i zależnościach
+(niewidoczne z zewnątrz bez skutecznej penetracji systemu), natomiast DAST wskazał braki w konfiguracji bezpieczeństwa
+nagłówków HTTP i ochronie klienta. Dopiero połączenie obu metod (podejście hybrydowe) daje pełny obraz stanu zabezpieczeń aplikacji.

@@ -243,3 +243,18 @@ Wyniki analizy ujawniły kilka potencjalnych problemów bezpieczeństwa, w tym:
  • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
 Ran 445 rules on 1798 files: 25 findings.
 ```
+
+
+## Zadanie 3 (obowiązkowe): Przygotowanie procesu CI/CD z wykorzystaniem Trivy i Semgrep
+
+W ramach zadania proces ciągłej integracji (CI) w oparciu o GitHub Actions, definiując workflow w pliku
+`.github/workflows/main.yml`. Potok automatycznie buduje obraz Dockera oraz uruchamia skanowanie kodu źródłowego
+narzędziem Semgrep i analizę obrazu kontenera narzędziem Trivy przy każdym wypchnięciu zmian do repozytorium.
+Konfiguracja ta umożliwia zaimplementowanie w przyszłosći automatycznego blokowania wdrożenia w przypadku wykrycia
+podatności o poziomie krytycznym lub wysokim (Critical/High).
+
+Link do joba z wykonanym pipelinem dla przykładowego commita:
+https://github.com/pawelmuller/TBO-task4/actions/runs/20730093571
+
+
+## Zadanie 4 (obowiązkowe): Uruchomienie aplikacji lokalnie + DAST z wykorzystaniem ZAP

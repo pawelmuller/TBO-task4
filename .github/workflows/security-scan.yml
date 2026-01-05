@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Build Docker image
         run: |
@@ -26,8 +26,7 @@ jobs:
           format: 'table'
 
       - name: Install Semgrep
-        run: |
-          sudo pip install semgrep
+        run: pip install semgrep
 
       - name: Run Semgrep SAST
         run: |
